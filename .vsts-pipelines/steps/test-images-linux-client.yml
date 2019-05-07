@@ -56,6 +56,20 @@ steps:
   displayName: Copy Test Results
   condition: always()
   continueOnError: true
+- script: >
+    docker cp
+    $(testRunner.container):/core
+    $(Common.TestResultsDirectory)/core
+  displayName: Copy Core Dump
+  condition: always()
+  continueOnError: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: $(Common.TestResultsDirectory)/core
+    artifactName: dump
+  displayName: Publish Core Dump
+  condition: always()
+  continueOnError: true
 - task: PublishTestResults@2
   displayName: Publish Test Results
   condition: always()
